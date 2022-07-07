@@ -1,9 +1,14 @@
 import axios from "axios";
+import {useNavigate} from "react-router-dom";
 
 const apiUrl = window._env_.API_URL;
 
-const getToken = () => {
-    return `Bearer ${localStorage.getItem("restaurate-auth-token")}`;
+export const getToken = () => {
+    const token = localStorage.getItem("restaurate-auth-token");
+    if (token === null){
+        return null;
+    }
+    return `Bearer ${token}`;
 }
 
 export const setToken = (token) => {
@@ -12,6 +17,13 @@ export const setToken = (token) => {
 
 export const unsetToken = () => {
     localStorage.setItem("restaurate-auth-token", null);
+}
+
+class ResponseError extends Error {
+    constructor(response) {
+        super();
+        this.response = response;
+    }
 }
 
 export default async function apiCall({ url, method, data={} }) {
@@ -25,5 +37,12 @@ export default async function apiCall({ url, method, data={} }) {
         }
     }
     config.timeout = 1000 * 60;
-    return axios(config)
+    return axios(config).catch(e => {
+        if (e.response.status === 401) {
+            unsetToken();
+            const navigate = useNavigate();
+            navigate("/login");
+        }
+        throw new ResponseError(e.response);
+    });
 }

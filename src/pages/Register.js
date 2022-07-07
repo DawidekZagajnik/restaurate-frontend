@@ -1,15 +1,16 @@
 import React from "react";
 import apiCall, {setToken} from "../utils/apiCall";
 import TextInput from "../components/TextInput";
-import "./Login.css";
+import "./Register.css";
 import Button from "../components/Button";
 import { Typography } from "@material-ui/core";
 import {useNavigate} from "react-router-dom";
 
-function LoginPage() {
+function RegisterPage() {
     
     const [login, setLogin] = React.useState("");
     const [password, setPassword] = React.useState("");
+    const [confirmPassword, setConfirmPassword] = React.useState("");
     const [errorMessage, setErrorMessage] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const navigate = useNavigate();
@@ -21,17 +22,17 @@ function LoginPage() {
     }, [])
 
     const handleSubmit = () => {
-        if (password && login) {
+        if (password && login && confirmPassword === password) {
             if (mounted.current) {
                 setErrorMessage(null);
                 setLoading(true);
             }
             apiCall({
-                url: "/login", 
+                url: "/user", 
                 method: "POST", 
                 data: {username: login, password: password}
             })
-            .then(response => setToken(response.data))
+            .then(response => {setToken(response.data); navigate("/")})
             .catch(e => {
                 if (mounted.current) setErrorMessage(e.response.data);
             })
@@ -39,17 +40,17 @@ function LoginPage() {
                 if (mounted.current) setLoading(false);
             })
         } else {
-            if (mounted.current) setErrorMessage("Please fill all fields to sign in.");
+            if (mounted.current) setErrorMessage("Please fill all fields to sign up. Make sure that passwords match.");
         }
     };
 
 
     return <>
-        <div className="login-page">
+        <div className="register-page">
             <Typography variant="h4" style={{marginBottom: "20px", color: "#ff5500", fontWeight: "bold"}}>
                 RestauRate
             </Typography>
-            <div className="login-form">
+            <div className="register-form">
                 <TextInput 
                     label="Username"
                     value={login}
@@ -61,16 +62,21 @@ function LoginPage() {
                     value={password}
                     onChange={value => setPassword(value)}
                 />
+                <TextInput 
+                    type="password"
+                    label="Confirm password"
+                    value={confirmPassword}
+                    onChange={value => setConfirmPassword(value)}
+                />
                 <Button 
-                    label="Log in"
+                    label="sign up"
                     onClick={handleSubmit}
                     loading={loading}
                 />
-            </div> 
+            </div>
             <div style={{height: "30px"}}>{errorMessage}</div>
-            <div>Don't have an account yet? Click <a className="link" onClick={() => navigate("/register")}>here</a> to sign up!</div>
         </div>
     </>
 }
 
-export default LoginPage;
+export default RegisterPage;

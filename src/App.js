@@ -2,6 +2,7 @@ import React, {Fragment} from "react";
 import LoginPage from "./pages/Login";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
+import RegisterPage from "./pages/Register";
 
 
 const theme = createTheme({
@@ -19,7 +20,8 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route exact path="/login" element={<Fragment><LoginPage /></Fragment>} />
+          <Route path="/login" element={<Fragment><LoginPage /></Fragment>} />
+          <Route path="/register" element={<Fragment><RegisterPage /></Fragment>} />
         </Routes>
       </Router>
     </ThemeProvider>
