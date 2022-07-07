@@ -31,7 +31,7 @@ function LoginPage() {
                 method: "POST", 
                 data: {username: login, password: password}
             })
-            .then(response => setToken(response.data))
+            .then(response => {setToken(response.data); navigate("/");})
             .catch(e => {
                 if (mounted.current) setErrorMessage(e.response.data);
             })
