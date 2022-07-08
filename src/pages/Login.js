@@ -33,7 +33,7 @@ function LoginPage() {
             })
             .then(response => {setToken(response.data); navigate("/");})
             .catch(e => {
-                if (mounted.current) setErrorMessage(e.response.data);
+                if (mounted.current) setErrorMessage(e.response?.data || "An unknown error occurred");
             })
             .finally(() => {
                 if (mounted.current) setLoading(false);
@@ -46,7 +46,7 @@ function LoginPage() {
 
     return <>
         <div className="login-page">
-            <Typography variant="h4" style={{marginBottom: "20px", color: "#ff5500", fontWeight: "bold"}}>
+            <Typography variant="h4" style={{marginBottom: "20px", color: "#f62", fontWeight: "bold"}}>
                 RestauRate
             </Typography>
             <div className="login-form">

@@ -1,24 +1,27 @@
 import React from "react";
 import apiCall from "../utils/apiCall";
 import "./Restaurants.css";
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
+import ErrorBox from "./ErrorBox";
+
 
 export default function Restaurants ({query}) {
 
-    const [page, setPage] = React.useState(0);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
     const hasMore = React.useRef(false);
-    const restaurants = React.useRef([]);
+    const [restaurants, setRestaurants] = React.useState([]);
     const mounted = React.useRef(false);
+    const [page, setPage] = React.useState(0);
 
     React.useEffect(() => {
         mounted.current = true;
         hasMore.current = false;
-        restaurants.current = [];
+        setRestaurants([]);
         setPage(0);
         return () => mounted.current = false;
     }, [query])
+
 
     React.useEffect(() => {
         mounted.current = true;
@@ -30,18 +33,33 @@ export default function Restaurants ({query}) {
         })
         .then(response => {
             console.log(response.data);
-            restaurants.current = [...restaurants.current, ...response.data.result];
+            setRestaurants(page === 0 ? response.data.result : [...restaurants, ...response.data.result]);
             hasMore.current = response.data.has_more;
         })
         .catch(e => {
             if (mounted.current) setError(e.response?.data || "An unknown error occurred")
         })
+        .finally(() => {
+            if (mounted.current) setLoading(false);
+        })
         return () => mounted.current = false;
-    }, [query, page])
+    }, [page, query])
 
+    const Restaurant = ({index, name, description, owner}) => {
 
-    const Restaurant = ({name, description, owner}) => {
-        return <div className="restaurant-item">
+        React.useEffect(() => {
+            if (!loading && hasMore.current && index === restaurants.length - 1) {
+                new IntersectionObserver((entries, observer) => {
+                    let entry = entries[0];
+                    if (entry.isIntersecting) {
+                        setPage(page + 1);
+                        observer.disconnect();
+                    }
+                }).observe(document.getElementById("restaurant" + index))
+            }
+        }, [index])
+
+        return <div className="restaurant-item" id={"restaurant" + index}>
             <Typography variant="h4" >{name}</Typography>
             <div>{description}</div>
             <div className="restaurant-owner-name">Owner: {owner}</div>
@@ -52,8 +70,11 @@ export default function Restaurants ({query}) {
     return <>
         <div className="restaurants-wrapper">
             {
-                restaurants.current.map((restaurant, index) => <Restaurant key={index} {...restaurant} />)
+                restaurants.map((restaurant, index) => <Restaurant key={index} index={index} {...restaurant} />)
             }
+            {loading && <CircularProgress />}
+            <ErrorBox errorMessage={error} />
+            {!loading && !error && restaurants.length === 0 && <div>No data matches your search criteria.</div>}
         </div>
     </>;
 }
