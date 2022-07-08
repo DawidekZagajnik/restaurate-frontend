@@ -68,7 +68,7 @@ export default function Restaurants ({query}) {
     }
 
     const goToRestaurant = id => {
-        navigate("/restaurant/" + id, {id});
+        navigate("/restaurant?id=" + id);
     }
 
 
