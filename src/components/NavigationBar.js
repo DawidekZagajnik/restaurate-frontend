@@ -38,6 +38,7 @@ export default function NavigationBar ({ onSearch }) {
                     placeholder="Search restaurants"
                     value={searchWord}
                     onChange={e => setSearchWord(e.target.value)}
+                    onKeyDown={e => {if (e.key === "Enter") onSearch(searchWord);}}
                 />
                 <IconButton style={{margin: 3}} onClick={() => onSearch(searchWord)}>
                     <BiSearchAlt size={20}/>
