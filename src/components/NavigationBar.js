@@ -30,6 +30,13 @@ export default function NavigationBar ({ onSearch }) {
     }, [navigate])
 
     return <div className="nav-bar">
+        {user && <div className="nav-bar-item">
+                <IconButton >
+                    <AiOutlineUser size={40} />
+                </IconButton>
+                <div style={{margin: 0}}>My account</div>
+            </div>
+        }
         {onSearch && 
             <div className="nav-bar-item" style={{flexDirection: "row"}}>
                 <TextField 
@@ -45,20 +52,13 @@ export default function NavigationBar ({ onSearch }) {
                 </IconButton>
             </div>
         }
-        {user && <>
-                <div className="nav-bar-item">
-                    <IconButton >
-                        <AiOutlineUser size={40} />
-                    </IconButton>
-                    <div style={{margin: 0}}>My account</div>
-                </div>
-                <div className="nav-bar-item">
-                    <IconButton onClick={() => {unsetToken(); navigate("/login");}}>
-                        <BiLogOut size={40} />
-                    </IconButton>
-                    <div style={{margin: 0}}>Logout</div>
-                </div>
-            </>
+        {user && 
+            <div className="nav-bar-item">
+                <IconButton onClick={() => {unsetToken(); navigate("/login");}}>
+                    <BiLogOut size={40} />
+                </IconButton>
+                <div style={{margin: 0}}>Logout</div>
+            </div>
         }
     </div>;
 }
