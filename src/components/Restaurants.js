@@ -1,9 +1,9 @@
-import { Typography } from "@mui/material";
+import { CircularProgress, Typography } from "@mui/material";
 import React from "react";
 import "./Restaurants.css";
 
 
-export default function Restaurants({restaurantList, selectRestaurant}) {
+export default function Restaurants({restaurantList, selectRestaurant, loading=false}) {
 
     const RestaurantItem = ({id, name, description, owner}) => {
         return <div className="restaurant-item" onClick={() => selectRestaurant(id)}>
@@ -14,6 +14,12 @@ export default function Restaurants({restaurantList, selectRestaurant}) {
     }
 
     return <div className="restaurants-column">
-        {restaurantList.map(rest => <RestaurantItem key={rest.id} {...rest}/>)}
+        {loading ? 
+            <div style={{width: 850, height: "calc(100vh - 110px)", display: "flex", alignItems: "center", justifyContent: "center"}}>
+                <CircularProgress /> 
+            </div>        
+                : 
+            restaurantList.map(rest => <RestaurantItem key={rest.id} {...rest}/>)
+        }
     </div>
 }

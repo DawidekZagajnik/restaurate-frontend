@@ -7,7 +7,7 @@ export default function ErrorBox({errorMessage}) {
 
     return <div style={{
         backgroundColor: "#c33", 
-        width: "100%", 
+        width: "calc(100% - 80px)", 
         maxHeight: "300px", 
         borderRadius: "5px",
         margin: "20px", 

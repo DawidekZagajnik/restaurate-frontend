@@ -5,7 +5,7 @@
 
 .restaurant-item {
     min-height: 200px;
-    width: 800px;
+    width: calc(100% - 55px);
     padding: 20px;
     margin: 5px;
     border: 2px solid #ff5500;
@@ -20,9 +20,14 @@
 }
 
 .restaurants-column {
+    height: calc(100vh - 110px);
     max-height: calc(100vh - 110px);
+    width: 850px;
+    display: flex;
+    flex-direction: column;
     margin-left: 15px;
     overflow-y: auto;
+    overflow-x: clip;
 }
 
 .restaurants-column::-webkit-scrollbar {

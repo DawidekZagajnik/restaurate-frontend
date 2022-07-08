@@ -3,7 +3,6 @@ import apiCall from "../utils/apiCall";
 import ErrorBox from "../components/ErrorBox";
 import "./Home.css";
 import Restaurants from "../components/Restaurants";
-import CircularProgress from "@mui/material/CircularProgress";
 import {useNavigate} from "react-router-dom";
 import NavigationBar from "../components/NavigationBar";
 
@@ -14,6 +13,7 @@ export default function Home() {
     const [loading, setLoading] = React.useState(false);
     const [limit, setLimit] = React.useState(5);
     const [error, setError] = React.useState(null);
+    const [query, setQuery] = React.useState(null);
     const mounted = React.useRef(false);
     const navigate = useNavigate();
 
@@ -23,7 +23,7 @@ export default function Home() {
         setLoading(true);
         apiCall({
             method: "GET",
-            url: `/restaurants?start=${limit - 5}&limit=${limit}`
+            url: `/restaurants?start=${limit - 5}&limit=${limit}${query ? "&query=" + query : ""}`
         })
         .then(response => {
             if(mounted.current) setRestaurants(response.data.result);
@@ -35,18 +35,17 @@ export default function Home() {
             if (mounted.current) setLoading(false);
         })
         return () => mounted.current = false;
-    }, [limit])
+    }, [limit, query])
 
     const handleRestaurantClick = (restId) => {
         
     }
 
     return  <div className="home-page">
-        <NavigationBar />
+        <NavigationBar onSearch={value => setQuery(value)} />
         <ErrorBox errorMessage={error} />
         <div className="home-page-items-wrapper">
-            {restaurants && <Restaurants restaurantList={restaurants} selectRestaurant={handleRestaurantClick}/>}
-            {loading && <CircularProgress/>}
+            {restaurants && <Restaurants restaurantList={restaurants} selectRestaurant={handleRestaurantClick} loading={loading}/>}
         </div>
     </div>
 }
