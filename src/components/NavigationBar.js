@@ -27,7 +27,7 @@ export default function NavigationBar ({ onSearch }) {
         })
 
         return () => mounted.current = false;
-    }, [])
+    }, [navigate])
 
     return <div className="nav-bar">
         {onSearch && 
