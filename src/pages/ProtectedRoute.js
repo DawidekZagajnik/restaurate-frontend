@@ -3,9 +3,9 @@ import {Navigate} from "react-router-dom";
 import { getToken } from "../utils/apiCall";
 
 
-const ProtectedRoute = ({children}) => {
+export default function ProtectedRoute({ children }) {
     if (getToken() === null) {
-        return <Navigate to="/login" replace/>
+        return <Navigate to="/login" replace />;
     }
-    return children
+    return children;
 }

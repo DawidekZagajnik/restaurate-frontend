@@ -1,5 +1,7 @@
-import React, {Fragment} from "react";
+import React from "react";
 import LoginPage from "./pages/Login";
+import Home from "./pages/Home";
+import ProtectedRoute from "./pages/ProtectedRoute";
 import { ThemeProvider, createTheme } from "@mui/material";
 import { Route, Routes, BrowserRouter as Router } from "react-router-dom";
 import RegisterPage from "./pages/Register";
@@ -20,8 +22,9 @@ function App() {
     <ThemeProvider theme={theme}>
       <Router>
         <Routes>
-          <Route path="/login" element={<Fragment><LoginPage /></Fragment>} />
-          <Route path="/register" element={<Fragment><RegisterPage /></Fragment>} />
+          <Route exact path="/login" element={<LoginPage />} />
+          <Route exact path="/register" element={<RegisterPage />} />
+          <Route exact path="/" element={<ProtectedRoute><Home /></ProtectedRoute>}/>
         </Routes>
       </Router>
     </ThemeProvider>

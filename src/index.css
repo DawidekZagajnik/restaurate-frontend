@@ -7,6 +7,11 @@ body {
   -moz-osx-font-smoothing: grayscale;
   background-color: #222;
   color: #ddd;
+  max-height: 100%;
+}
+
+html {
+  max-height: 100%;
 }
 
 code {

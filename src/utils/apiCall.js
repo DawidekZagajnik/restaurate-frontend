@@ -1,5 +1,4 @@
 import axios from "axios";
-import {useNavigate} from "react-router-dom";
 
 const apiUrl = window._env_.API_URL;
 
@@ -40,8 +39,7 @@ export default async function apiCall({ url, method, data={} }) {
     return axios(config).catch(e => {
         if (e.response.status === 401) {
             unsetToken();
-            const navigate = useNavigate();
-            navigate("/login");
+            window.location.replace("/login");
         }
         throw new ResponseError(e.response);
     });

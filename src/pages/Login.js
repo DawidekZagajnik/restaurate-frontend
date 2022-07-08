@@ -68,7 +68,7 @@ function LoginPage() {
                 />
             </div> 
             <div style={{height: "30px"}}>{errorMessage}</div>
-            <div>Don't have an account yet? Click <a className="link" onClick={() => navigate("/register")}>here</a> to sign up!</div>
+            <div>Don't have an account yet? Click <span className="link" onClick={() => navigate("/register")}>here</span> to sign up!</div>
         </div>
     </>
 }
