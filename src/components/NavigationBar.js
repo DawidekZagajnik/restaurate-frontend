@@ -43,7 +43,6 @@ export default function NavigationBar ({ onSearch }) {
         {onSearch && 
             <div className="nav-bar-item" style={{flexDirection: "row"}}>
                 <TextField 
-                    size="small"
                     color="secondary"
                     placeholder="Search restaurants"
                     value={searchWord}

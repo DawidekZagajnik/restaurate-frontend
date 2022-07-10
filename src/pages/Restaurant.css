@@ -41,3 +41,13 @@
     top: 15px;
     right: 15px;
 }
+
+.restaurant-details-page .restaurant-review .stars {
+    display: flex;
+    flex-direction: row;
+    margin-top: 8px;
+}
+
+.restaurant-details-page .restaurant-review .review-content {
+    margin-top: 12px;
+}
