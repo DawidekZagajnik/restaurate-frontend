@@ -7,6 +7,7 @@ import apiCall from "../utils/apiCall";
 import ErrorBox from "../components/ErrorBox";
 import { CircularProgress, Typography } from "@mui/material";
 import Stars from "../components/Stars";
+import ReviewAdder from "../components/ReviewAdder";
 
 
 export default function Restaurant() {
@@ -17,7 +18,7 @@ export default function Restaurant() {
     const [restaurant, setRestaurant] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
-    const {observer, loading: reviewsLoading, error: reviewsError, items: reviews, hasMore} = useAutoLoad({
+    const {observer, loading: reviewsLoading, error: reviewsError, items: reviews, hasMore } = useAutoLoad({
         url: `/reviews/${restaurantId}`, 
         pageSize: 10
     });
@@ -75,6 +76,7 @@ export default function Restaurant() {
                 <Typography className="owner-name" variant="h6">Owner: {restaurant.owner}</Typography>
                 <Typography className="restaurant-description" variant="h4">{restaurant.description}</Typography>
                 <Typography className="restaurant-reviews" variant="h3" color="primary">Reviews</Typography>
+                <ReviewAdder restaurantId={restaurantId} onReviewAdded={review => {}}/>
                 {reviews.length > 0 ?
                     reviews.map((review, index) => <Review key={index} index={index} {...review}/>)
                         :
