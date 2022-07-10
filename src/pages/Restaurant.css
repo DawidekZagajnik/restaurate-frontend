@@ -1,4 +1,42 @@
 .restaurant-details-page {
-    overflow: auto;
-    margin: 20px;
+    margin-left: 20vw;
+    margin-right: 20vw;
+    margin-bottom: 0;
+    padding-top: 40px;
+}
+
+.restaurant-details-page .restaurant-description {
+    max-width: 40vw;
+    font-size: 24px;
+    width: auto;
+    margin-bottom: 20px;
+}
+
+.restaurant-details-page .owner-name {
+    margin-bottom: 20px;
+    font-size: 16px;
+}
+
+.restaurant-details-page .restaurant-reviews {
+    margin-top: 40px;
+    font-size: 34px;
+    margin-bottom: 40px;
+}
+
+.restaurant-details-page .restaurant-review {
+    min-height: 200px;
+    border: 1px solid #f62;
+    border-radius: 5px;
+    margin: 10px;
+    padding: 10px;
+    padding-left: 20px;
+    position: relative;
+}
+
+.restaurant-details-page .restaurant-review .review-date {
+    font-size: 14px;
+    color: #888;
+    position: absolute;
+    top: 15px;
+    right: 15px;
 }
