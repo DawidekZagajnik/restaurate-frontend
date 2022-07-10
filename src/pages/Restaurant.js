@@ -52,7 +52,7 @@ export default function Restaurant() {
     const Stars = ({rate}) => {
         const stars = [];
         for (let i = 1; i <= 5; i++) {
-            stars.push(<AiFillStar key={i} size={16} style={{color: rate >= i ? "#cc0" : "#888"}}/>);
+            stars.push(<AiFillStar key={i} size={16} style={{color: rate >= i ? "#ee0" : "#888"}}/>);
         }
         return <div className="stars">
             {stars}
