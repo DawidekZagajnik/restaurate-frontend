@@ -6,7 +6,7 @@ import "./Restaurant.css";
 import apiCall from "../utils/apiCall";
 import ErrorBox from "../components/ErrorBox";
 import { CircularProgress, Typography } from "@mui/material";
-import { AiFillStar } from "react-icons/ai";
+import Stars from "../components/Stars";
 
 
 export default function Restaurant() {
@@ -47,16 +47,6 @@ export default function Restaurant() {
 
     if (restaurantId === null) {
         return <Navigate to={"/"}/>;
-    }
-
-    const Stars = ({rate}) => {
-        const stars = [];
-        for (let i = 1; i <= 5; i++) {
-            stars.push(<AiFillStar key={i} size={16} style={{color: rate >= i ? "#ee0" : "#888"}}/>);
-        }
-        return <div className="stars">
-            {stars}
-        </div>
     }
 
     const Review = ({index, content, rate, timestamp, user}) => {
