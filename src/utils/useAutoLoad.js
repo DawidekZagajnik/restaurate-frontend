@@ -3,7 +3,7 @@ import apiCall from "./apiCall";
 
 
 
-export default function useAutoLoad({ url, pageSize, query, componentMounted }) {
+export default function useAutoLoad({ url, pageSize, query }) {
 
     const itemList = React.useRef([]);
     const [page, setPage] = React.useState(0);
@@ -20,11 +20,9 @@ export default function useAutoLoad({ url, pageSize, query, componentMounted }) 
 
     React.useEffect(() => {
         hasMore.current = false;
-        if (componentMounted.current) {
-            itemList.current = [];
-            setPage(0);
-        }
-    }, [query, componentMounted, url, pageSize])
+        itemList.current = [];
+        setPage(0);
+    }, [query, url, pageSize])
 
 
     React.useEffect(() => {
@@ -35,16 +33,16 @@ export default function useAutoLoad({ url, pageSize, query, componentMounted }) 
             method: "GET"
         })
         .then(response => {
-            if (componentMounted.current) itemList.current = page === 0 ? response.data.result : [...itemList.current, ...response.data.result];
+            itemList.current = page === 0 ? response.data.result : [...itemList.current, ...response.data.result];
             hasMore.current = response.data.has_more;
         })
         .catch(e => {
-            if (componentMounted.current) setError(e.response?.data || "An unknown error occurred")
+            setError(e.response?.data || "An unknown error occurred")
         })
         .finally(() => {
-            if (componentMounted.current) setLoading(false);
+            setLoading(false);
         })
-    }, [page, query, url, componentMounted, pageSize])
+    }, [page, query, url, pageSize])
 
     return {
         observer: observer,

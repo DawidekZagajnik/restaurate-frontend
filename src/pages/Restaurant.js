@@ -18,8 +18,7 @@ export default function Restaurant() {
     const [error, setError] = React.useState(null);
     const {observer, loading: reviewsLoading, error: reviewsError, items: reviews, hasMore} = useAutoLoad({
         url: `/reviews/${restaurantId}`, 
-        pageSize: 10, 
-        componentMounted: mounted 
+        pageSize: 10
     });
 
     React.useEffect(() => {

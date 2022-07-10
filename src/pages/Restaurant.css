@@ -27,10 +27,11 @@
     min-height: 200px;
     border: 1px solid #f62;
     border-radius: 5px;
-    margin: 10px;
+    margin-bottom: 20px;
     padding: 10px;
     padding-left: 20px;
     position: relative;
+    margin-left: 10px;
 }
 
 .restaurant-details-page .restaurant-review .review-date {

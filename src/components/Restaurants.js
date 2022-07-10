@@ -9,14 +9,8 @@ import useAutoLoad from "../utils/useAutoLoad";
 export default function Restaurants ({ query }) {
 
     const navigate = useNavigate();
-    const mounted = React.useRef(false);
-    const autoLoad = useAutoLoad({url: "/restaurants", pageSize: 6, query: query, componentMounted: mounted})
+    const autoLoad = useAutoLoad({url: "/restaurants", pageSize: 6, query: query})
     const {observer, hasMore, loading, error, items: restaurants} = autoLoad;
-
-    React.useEffect(() => {
-        mounted.current = true;
-        return () => mounted.current = false;
-    }, [])
 
     const Restaurant = ({index, name, description, owner, id}) => {
 
