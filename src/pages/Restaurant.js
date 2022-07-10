@@ -75,7 +75,7 @@ export default function Restaurant() {
                 {reviews.length > 0 ?
                     reviews.map((review, index) => <Review key={index} index={index} {...review}/>)
                         :
-                    <Typography variant="h6">This restaurant has no reviews yet</Typography>
+                    <Typography variant="h6" style={{color: "#888"}}>This restaurant has no reviews yet</Typography>
                 }
                 <ErrorBox errorMessage={reviewsError}/>
                 {reviewsLoading && <CircularProgress />}
