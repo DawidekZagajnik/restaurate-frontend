@@ -9,24 +9,21 @@ import {BiSearchAlt, BiLogOut} from "react-icons/bi";
 
 export default function NavigationBar ({ onSearch }) {
 
-    const [user, setUser] = React.useState(null);
-    const mounted = React.useRef(false);
+    const user = React.useRef(null);
     const [searchWord, setSearchWord] = React.useState("");
     const navigate = useNavigate();
 
     React.useEffect(() => {
-        mounted.current = true;
-
-        apiCall({
-            url: "/my-account",
-            method: "GET"
-        })
-        .catch(e => navigate("/login"))
-        .then(response => {
-            if (mounted.current) setUser(response.data);
-        })
-
-        return () => mounted.current = false;
+        if (user.current === null) {
+            apiCall({
+                url: "/my-account",
+                method: "GET"
+            })
+            .catch(e => navigate("/login"))
+            .then(response => {
+                user.current = response.data;
+            })
+        }
     }, [navigate])
 
     return <div className="nav-bar">
