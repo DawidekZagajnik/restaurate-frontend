@@ -1,6 +1,2 @@
-# TODOS
-
-- home page (recent reviews)
-- browser to browse restaurants
-- user panel to add restaurant, see recent reviews and delete account and restaurants
-- restaurant panel to display reviews
+# RestauRate Frontend
+This repo contains frontend of RestauRate app, which is a fullstack React-Flask-MySQL-Redis web app for rating restaurants. This readme file is gonna contain installation walkthrough as soon as I finish working on this project.
