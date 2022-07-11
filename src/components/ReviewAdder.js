@@ -35,7 +35,7 @@ export default function ReviewAdder ({ restaurantId, onReviewAdded }) {
         })
         .then(response => {
             if (mounted.current) setReview({content: "", rate: 0});
-            onReviewAdded(response.data.inserted);
+            onReviewAdded();
         })
         .finally(() => {
             if (mounted.current) setLoading(false);

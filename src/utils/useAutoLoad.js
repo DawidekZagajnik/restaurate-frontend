@@ -9,6 +9,7 @@ export default function useAutoLoad({ url, pageSize, query }) {
     const [page, setPage] = React.useState(0);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
+    const [reset, setReset] = React.useState(0);
     const hasMore = React.useRef(false);
     const observer = new IntersectionObserver((entries, observer) => {
         let entry = entries[0];
@@ -22,7 +23,7 @@ export default function useAutoLoad({ url, pageSize, query }) {
         hasMore.current = false;
         itemList.current = [];
         setPage(0);
-    }, [query, url, pageSize])
+    }, [query, url, pageSize, reset])
 
 
     React.useEffect(() => {
@@ -42,13 +43,14 @@ export default function useAutoLoad({ url, pageSize, query }) {
         .finally(() => {
             setLoading(false);
         })
-    }, [page, query, url, pageSize])
+    }, [page, query, url, pageSize, reset])
 
     return {
         observer: observer,
         loading: loading,
         error: error,
         items: itemList.current,
-        hasMore: hasMore.current
+        hasMore: hasMore.current,
+        reset: () => setReset(Math.random())
     };
 }

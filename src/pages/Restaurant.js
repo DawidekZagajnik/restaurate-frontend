@@ -18,7 +18,7 @@ export default function Restaurant() {
     const [restaurant, setRestaurant] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
     const [error, setError] = React.useState(null);
-    const {observer, loading: reviewsLoading, error: reviewsError, items: reviews, hasMore } = useAutoLoad({
+    const {observer, loading: reviewsLoading, error: reviewsError, items: reviews, hasMore, reset: resetAutoLoad } = useAutoLoad({
         url: `/reviews/${restaurantId}`, 
         pageSize: 10
     });
@@ -76,14 +76,14 @@ export default function Restaurant() {
                 <Typography className="owner-name" variant="h6">Owner: {restaurant.owner}</Typography>
                 <Typography className="restaurant-description" variant="h4">{restaurant.description}</Typography>
                 <Typography className="restaurant-reviews" variant="h3" color="primary">Reviews</Typography>
-                <ReviewAdder restaurantId={restaurantId} onReviewAdded={review => {}}/>
+                <ReviewAdder restaurantId={restaurantId} onReviewAdded={() => resetAutoLoad()}/>
                 {reviews.length > 0 ?
                     reviews.map((review, index) => <Review key={index} index={index} {...review}/>)
                         :
-                    <Typography variant="h6" style={{color: "#888"}}>This restaurant has no reviews yet</Typography>
+                    !reviewsLoading && <Typography variant="h6" style={{color: "#888"}}>This restaurant has no reviews yet</Typography>
                 }
                 <ErrorBox errorMessage={reviewsError}/>
-                {reviewsLoading && <CircularProgress />}
+                {reviewsLoading && <div style={{width: "100%", minHeight: "300px", display: "flex", alignItems: "center", justifyContent: "center"}}><CircularProgress /></div>}
             </div>
         }
     </>;
