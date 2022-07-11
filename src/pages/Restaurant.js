@@ -77,7 +77,7 @@ export default function Restaurant() {
                 <Typography className="restaurant-description" variant="h4">{restaurant.description}</Typography>
                 <Typography className="restaurant-reviews" variant="h3" color="primary">Reviews</Typography>
                 <ReviewAdder restaurantId={restaurantId} onReviewAdded={review => {}}/>
-                {reviews.length > 0 ?
+                {!reviewsLoading && reviews.length > 0 ?
                     reviews.map((review, index) => <Review key={index} index={index} {...review}/>)
                         :
                     <Typography variant="h6" style={{color: "#888"}}>This restaurant has no reviews yet</Typography>

@@ -29,7 +29,8 @@ function LoginPage() {
             apiCall({
                 url: "/login", 
                 method: "POST", 
-                data: {username: login, password: password}
+                data: {username: login, password},
+                authorizationAction: true
             })
             .then(response => {setToken(response.data); navigate("/");})
             .catch(e => {

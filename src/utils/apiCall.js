@@ -25,7 +25,7 @@ class ResponseError extends Error {
     }
 }
 
-export default async function apiCall({ url, method, data={} }) {
+export default async function apiCall({ url, method, data={}, authorizationAction = false }) {
     const config = {
         url, 
         method, 
@@ -37,7 +37,7 @@ export default async function apiCall({ url, method, data={} }) {
     }
     config.timeout = 1000 * 60;
     return axios(config).catch(e => {
-        if (e.response.status === 401) {
+        if (e.response.status === 401 && !authorizationAction) {
             unsetToken();
             window.location.replace("/login");
         }
