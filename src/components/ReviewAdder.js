@@ -14,6 +14,7 @@ export default function ReviewAdder ({ restaurantId, onReviewAdded }) {
     const mounted = React.useRef(false);
     const [error, setError] = React.useState(null);
     const [loading, setLoading] = React.useState(false);
+    const [helper, setHelper] = React.useState(null);
 
     React.useEffect(() => {
         mounted.current = true;
@@ -21,25 +22,30 @@ export default function ReviewAdder ({ restaurantId, onReviewAdded }) {
     }, [restaurantId])
 
     const handleReviewSubmit = () => {
-        if (mounted.current) {
-            setError(null);
-            setLoading(true);
+        if (mounted.current) setHelper(null);
+        if (review.content.length > 0) {
+            if (mounted.current) {
+                setError(null);
+                setLoading(true);
+            }
+            apiCall({
+                method: "POST",
+                url: "/review",
+                data: {...review, restaurantId}
+            })
+            .catch(e => {
+                if (mounted.current) setError(e.response?.data || "An unknown error occurred");
+            })
+            .then(response => {
+                if (mounted.current) setReview({content: "", rate: 0});
+                onReviewAdded();
+            })
+            .finally(() => {
+                if (mounted.current) setLoading(false);
+            })
+        } else {
+            if (mounted.current) setHelper("Review content cannot be empty.")
         }
-        apiCall({
-            method: "POST",
-            url: "/review",
-            data: {...review, restaurantId}
-        })
-        .catch(e => {
-            if (mounted.current) setError(e.response?.data || "An unknown error occurred");
-        })
-        .then(response => {
-            if (mounted.current) setReview({content: "", rate: 0});
-            onReviewAdded();
-        })
-        .finally(() => {
-            if (mounted.current) setLoading(false);
-        })
     }
 
     return <div className="review-adder">
@@ -57,12 +63,14 @@ export default function ReviewAdder ({ restaurantId, onReviewAdded }) {
             color="primary"
             placeholder="Type here to add new review"
             fullWidth
+            size="small"
             inputProps={{ maxLength: 300 }}
             style={{ position: "relative" }}
             helperText={`${review.content.length}/300`}
             FormHelperTextProps={{ className: "char-counter" }}
         />
-        <div style={{ marginTop: 10 }}>
+        <div style={{minHeight: 16, color: "#c33", marginLeft: 5, fontSize: 11, padding: 0 }}>{helper}</div>
+        <div style={{ marginTop: 5 }}>
             <Button 
                 label="submit"
                 fullWidth={true}

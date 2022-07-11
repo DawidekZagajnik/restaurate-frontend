@@ -74,6 +74,7 @@ export default function Restaurant() {
             <div className="restaurant-details-page">
                 <Typography variant="h2" style={{marginBottom: "20px"}}>{restaurant.name}</Typography>
                 <Typography className="owner-name" variant="h6">Owner: {restaurant.owner}</Typography>
+                <Typography className="owner-name" variant="h6">Address: {restaurant?.address || "No address provided"}</Typography>
                 <Typography className="restaurant-description" variant="h4">{restaurant.description}</Typography>
                 <Typography className="restaurant-reviews" variant="h3" color="primary">Reviews</Typography>
                 <ReviewAdder restaurantId={restaurantId} onReviewAdded={() => resetAutoLoad()}/>
