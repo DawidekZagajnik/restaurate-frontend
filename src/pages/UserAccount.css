@@ -1,0 +1,47 @@
+.user-content-wrapper {
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 20px;
+}
+
+.user-account-content-wrapper {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: sticky;
+    top: 120px;
+}
+
+.restaurant-review {
+    min-height: 200px;
+    min-width: 800px;
+    border: 1px solid #f62;
+    border-radius: 5px;
+    margin-bottom: 20px;
+    padding: 10px;
+    padding-left: 20px;
+    position: relative;
+    margin-left: 10px;
+}
+
+.restaurant-review .review-date {
+    font-size: 14px;
+    color: #888;
+    position: absolute;
+    top: 15px;
+    right: 15px;
+}
+
+.restaurant-details-page .restaurant-review .review-content {
+    margin-top: 12px;
+}
+
+.user-reviews {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    min-width: 900px;
+    max-width: 900px;
+}

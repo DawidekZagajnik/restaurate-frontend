@@ -34,7 +34,7 @@ export default function NavigationBar ({ onSearch }) {
                 <div style={{margin: 0}}>Home</div>
             </div>
         {user && <div className="nav-bar-item">
-                <IconButton >
+                <IconButton onClick={() => navigate("/my-account")}>
                     <AiOutlineUser size={40} />
                 </IconButton>
                 <div style={{margin: 0}}>My account</div>
