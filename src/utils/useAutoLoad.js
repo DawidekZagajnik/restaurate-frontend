@@ -19,6 +19,21 @@ export default function useAutoLoad({ url, pageSize, query }) {
         }
     })
 
+    const removeDuplicates = (array) => {
+        if (array.length > 0 && typeof array[0]?.id !== "undefined") {
+            const seenIds = [];
+            const result = [];
+            for (let element of array) {
+                if (!seenIds.includes(element.id)) {
+                    result.push(element);
+                }
+                seenIds.push(element.id);
+            }
+            return result;
+        }
+        return array;
+    }
+
     React.useEffect(() => {
         hasMore.current = false;
         itemList.current = [];
@@ -34,7 +49,7 @@ export default function useAutoLoad({ url, pageSize, query }) {
             method: "GET"
         })
         .then(response => {
-            itemList.current = page === 0 ? response.data.result : [...itemList.current, ...response.data.result];
+            itemList.current = removeDuplicates(page === 0 ? response.data.result : [...itemList.current, ...response.data.result]);
             hasMore.current = response.data.has_more;
         })
         .catch(e => {

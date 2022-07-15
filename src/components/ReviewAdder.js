@@ -69,7 +69,7 @@ export default function ReviewAdder ({ restaurantId, onReviewAdded }) {
             helperText={`${review.content.length}/300`}
             FormHelperTextProps={{ className: "char-counter" }}
         />
-        <div style={{minHeight: 16, color: "#c33", marginLeft: 5, fontSize: 11, padding: 0 }}>{helper}</div>
+        <div style={{minHeight: 16, color: "#c33", marginLeft: 5, fontSize: 11, marginTop: 5 }}>{helper}</div>
         <div style={{ marginTop: 5 }}>
             <Button 
                 label="submit"
