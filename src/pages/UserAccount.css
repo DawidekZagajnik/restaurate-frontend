@@ -2,7 +2,6 @@
     display: flex;
     flex-direction: row;
     align-items: flex-start;
-    padding: 20px;
 }
 
 .user-account-content-wrapper {
@@ -10,12 +9,13 @@
     flex-direction: column;
     align-items: center;
     position: sticky;
-    top: 120px;
+    top: 100px;
+    padding: 30px;
 }
 
 .restaurant-review {
     min-height: 200px;
-    min-width: 800px;
+    min-width: 80%;
     border: 1px solid #f62;
     border-radius: 5px;
     margin-bottom: 20px;
@@ -23,6 +23,7 @@
     padding-left: 20px;
     position: relative;
     margin-left: 10px;
+    margin-right: 10px;
 }
 
 .restaurant-review .review-date {
@@ -42,6 +43,21 @@
     flex-direction: column;
     align-content: center;
     justify-content: center;
-    min-width: 900px;
-    max-width: 900px;
+    min-width: 920px;
+    margin-top: 30px;
+}
+
+.user-restaurants {
+    display: flex;
+    flex-direction: column;
+    align-content: center;
+    justify-content: center;
+    width: 100%;
+    margin-top: 30px;
+    margin-left: 20px;
+}
+
+.restaurant-form-container {
+    min-width: 920px;
+    margin-top: 30px;
 }

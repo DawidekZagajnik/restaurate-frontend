@@ -3,10 +3,21 @@ import NavigationBar from "../components/NavigationBar";
 import apiCall from "../utils/apiCall";
 import "./UserAccount.css";
 import { AiOutlineUser } from "react-icons/ai";
-import { CircularProgress, Typography } from "@mui/material";
+import { CircularProgress, Typography, Tabs, Tab } from "@mui/material";
 import useAutoLoad from "../utils/useAutoLoad";
 import Stars from "../components/Stars";
 import ErrorBox from "../components/ErrorBox";
+import Restaurants from "../components/Restaurants";
+import RestaurantForm from "../components/RestaurantForm";
+
+
+const TabPanel = ({index, value, children}) => {
+    if (index === value) {
+        return <>{children}</>
+    } else {
+        return null;
+    }
+}  
 
 
 export default function UserAccount() {
@@ -19,6 +30,7 @@ export default function UserAccount() {
         url: `/my-reviews`, 
         pageSize: 10
     });
+    const [tab, setTab] = React.useState(0);
 
     React.useEffect(() => {
         mounted.current = true;
@@ -40,7 +52,7 @@ export default function UserAccount() {
         return () => mounted.current = false;
     }, [])
 
-    const Review = ({index, content, rate, timestamp, user}) => {
+    const Review = ({index, content, rate, timestamp, user, restaurant}) => {
 
         React.useEffect(() => {
             if (!reviewsLoading && hasMore && index === reviews.length - 1) {
@@ -49,7 +61,7 @@ export default function UserAccount() {
         }, [index])
 
         return <div className="restaurant-review" id={"review" + index}>
-            <Typography variant="h6">{user}</Typography>
+            <Typography variant="h6">{user} to restaurant {restaurant}</Typography>
             <Typography variant="p" className="review-date">{timestamp}</Typography>
             <Stars rate={rate}/>
             <Typography varaint="p" className="review-content">{content}</Typography>
@@ -61,7 +73,7 @@ export default function UserAccount() {
         <ErrorBox errorMessage={error}/>
         <div className="user-content-wrapper">
             <div className="user-account-content-wrapper">
-                <AiOutlineUser size={200} style={{border: "1px solid #ccc", borderRadius: "20px", margin: 24}}/>
+                <AiOutlineUser size={200} style={{border: "1px solid #ccc", borderRadius: "20px", marginBottom: 24}}/>
                 {loading && <CircularProgress style={{marginTop: 50}}/>}
                 {user && !loading && 
                     <>
@@ -70,14 +82,37 @@ export default function UserAccount() {
                     </> 
                 }
             </div>
-            <div className="user-reviews">
-                {reviews.length > 0 ?
-                    reviews.map((review, index) => <Review key={index} index={index} {...review}/>)
-                        :
-                    !reviewsLoading && <Typography variant="h6" style={{color: "#888"}}>You did not add any reviews yet.</Typography>
-                }
-                <ErrorBox errorMessage={reviewsError}/>
-                {reviewsLoading && <div style={{width: "100%", minHeight: "300px", display: "flex", alignItems: "center", justifyContent: "center"}}><CircularProgress /></div>}
+            <div>
+                <Tabs
+                    value={tab}
+                    onChange={(_, value) => setTab(value)}
+                    style={{position: "sticky", top: 100, backgroundColor: "#222", zIndex: 1, borderBottom: "1px solid #f62"}}
+                >
+                    <Tab label="My reviews" value={0}/>
+                    <Tab label="My restaurants" value={1}/>
+                    <Tab label="Add new restaurant" value={2}/>
+                </Tabs>
+                <TabPanel value={tab} index={0}>
+                    <div className="user-reviews">
+                        {reviews.length > 0 ?
+                            reviews.map((review, index) => <Review key={index} index={index} {...review}/>)
+                            :
+                            !reviewsLoading && <Typography variant="h6" style={{color: "#888"}}>You did not add any reviews yet.</Typography>
+                        }
+                        <ErrorBox errorMessage={reviewsError}/>
+                        {reviewsLoading && <div style={{width: "100%", minHeight: "300px", display: "flex", alignItems: "center", justifyContent: "center"}}><CircularProgress /></div>}
+                    </div>
+                </TabPanel>
+                <TabPanel value={tab} index={1}>
+                    <div className="user-restaurants">
+                        {user && <Restaurants userId={user.id}/>}
+                    </div>
+                </TabPanel>
+                <TabPanel value={tab} index={2}>
+                    <div className="restaurant-form-container">
+                        <RestaurantForm onSuccess={() => setTab(1)}/>
+                    </div>
+                </TabPanel>
             </div>
         </div>
     </>

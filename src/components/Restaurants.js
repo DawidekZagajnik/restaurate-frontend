@@ -6,10 +6,10 @@ import { useNavigate } from "react-router-dom";
 import useAutoLoad from "../utils/useAutoLoad";
 
 
-export default function Restaurants ({ query }) {
+export default function Restaurants ({ query, userId }) {
 
     const navigate = useNavigate();
-    const autoLoad = useAutoLoad({url: "/restaurants", pageSize: 6, query: query})
+    const autoLoad = useAutoLoad({url: userId ? `/restaurants/user/${userId}` : "/restaurants", pageSize: 6, query: query})
     const {observer, hasMore, loading, error, items: restaurants} = autoLoad;
 
     const Restaurant = ({index, name, description, owner, id}) => {
@@ -39,7 +39,7 @@ export default function Restaurants ({ query }) {
             }
             {loading && <CircularProgress />}
             <ErrorBox errorMessage={error} />
-            {!loading && !error && restaurants.length === 0 && <div>No data matches your search criteria.</div>}
+            {!loading && !error && restaurants.length === 0 && <div>{userId ? "You have no restaurants yet." : "No data matches your search criteria."}</div>}
         </div>
     </>;
 }
