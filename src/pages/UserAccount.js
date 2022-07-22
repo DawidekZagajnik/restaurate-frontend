@@ -41,7 +41,7 @@ export default function UserAccount() {
             method: "GET"
         })
         .catch(e => {
-            if (mounted.current) setError(e);
+            if (mounted.current) setError(e?.response?.data || "An unknown error occurred");
         })
         .then(response => {
             if (mounted.current) setUser(response.data);
