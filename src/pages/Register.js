@@ -32,7 +32,7 @@ function RegisterPage() {
                 method: "POST", 
                 data: {username: login, password: password}
             })
-            .then(response => {setToken(response.data); navigate("/")})
+            .then(response => {setToken(response.data); navigate("/login")})
             .catch(e => {
                 if (mounted.current) setErrorMessage(e.response?.data || "An unknown error occurred");
             })

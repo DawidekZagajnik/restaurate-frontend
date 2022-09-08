@@ -8,6 +8,7 @@ import ErrorBox from "../components/ErrorBox";
 import { CircularProgress, Typography } from "@mui/material";
 import Stars from "../components/Stars";
 import ReviewAdder from "../components/ReviewAdder";
+import {AiOutlineLike, AiTwotoneLike} from 'react-icons/ai';
 
 
 export default function Restaurant() {
@@ -50,19 +51,86 @@ export default function Restaurant() {
         return <Navigate to={"/"}/>;
     }
 
-    const Review = ({index, content, rate, timestamp, user}) => {
+    const Review = ({index, content, rate, timestamp, user, id}) => {
+
+        const mounted = React.useRef(false);
+        const [liked, setLiked] = React.useState(false);
+        const [likes, setLikes] = React.useState(0);
+        const [likesLoading, setLikesLoading] = React.useState(true);
 
         React.useEffect(() => {
+            mounted.current = true;
             if (!reviewsLoading && hasMore && index === reviews.length - 1) {
                 observer.observe(document.getElementById("review" + index))
             }
+            return () => mounted.current = false;
         }, [index])
+
+        React.useEffect(() => {
+            mounted.current = true;
+            setLikesLoading(true);
+            apiCall({
+                url: `/likes/${id}`,
+                method: "GET"
+            })
+            .then(response => {
+                setLiked(response.data.liked);
+                setLikes(response.data.likes);
+                setLikesLoading(false);
+            })
+            .catch(_ => {})
+            return () => mounted.current = false;
+        }, [])
+
+        const handleLike = (dislike = false) => {
+            let currLikes = likes;
+            let currLiked = liked;
+            if (mounted.current) {
+                setLiked(!currLiked);
+                setLikes((currLikes + (dislike ? -1 : 1)));
+            }
+            apiCall({
+                url: `/like/${id}`,
+                method: dislike ? "DELETE" : "POST"
+            })
+            .then(_ => {})
+            .catch(_ => {
+                if (mounted.current) {
+                    setLiked(currLiked);
+                    setLikes(currLikes);
+                }
+            })
+        }
 
         return <div className="restaurant-review" id={"review" + index}>
             <Typography variant="h6">{user}</Typography>
             <Typography variant="p" className="review-date">{timestamp}</Typography>
             <Stars rate={rate}/>
             <Typography varaint="p" className="review-content">{content}</Typography>
+            <div style={{
+                position: "absolute",
+                bottom: 20,
+                right: 30
+            }}>
+                {likesLoading ? 
+                    null
+                    :
+                    <div style={{
+                        display: "flex",
+                        flexDirection: "row",
+                        gap: 10,
+                        alignItems: "center",
+                        justifyContent: "center"
+                    }}>
+                        <div style={{fontSize: 24}}>{likes}</div>
+                        {liked ?
+                            <AiTwotoneLike size={24} onClick={() => handleLike(true)}/> 
+                            :
+                            <AiOutlineLike size={24} onClick={() => handleLike(false)}/>
+                        }
+                    </div>
+                }
+            </div>
         </div>
     }
 
